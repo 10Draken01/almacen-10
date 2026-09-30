@@ -59,10 +59,12 @@ public class Producto {
         this.precio = precio;
         this.cantidad = cantidad;
     }
+
     public void aumentarCantidad(int cantidad) {
         ValoresNumericosUtils.validarEnteroPositvo(cantidad, "La cantidad debe ser positiva");
         this.cantidad += cantidad;
     }
+
     public void descontarCantidad(int cantidad) {
         ValoresNumericosUtils.validarEnteroPositvo(cantidad, "La cantidad debe ser positiva");
 

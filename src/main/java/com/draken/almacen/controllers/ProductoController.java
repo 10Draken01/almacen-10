@@ -24,6 +24,26 @@ import java.util.List;
 @RequestMapping("/api/productos")
 @RequiredArgsConstructor
 @Tag(name = "Productos", description = "Gestion del inventario de productos")
+@ApiResponse(
+        responseCode = "400",
+        description = "Datos o parametros invalidos",
+        content = @Content(
+                mediaType = "application/problem+json",
+                schema = @Schema(
+                        implementation = ProblemaDoc.class
+                )
+        )
+)
+@ApiResponse(
+        responseCode = "500",
+        description = "Error interno del servidor",
+        content = @Content(
+                mediaType = "application/problem+json",
+                schema = @Schema(
+                        implementation = ProblemaDoc.class
+                )
+        )
+)
 public class ProductoController {
 
     private final ProductoService productoService;
