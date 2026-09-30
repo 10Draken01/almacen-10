@@ -1,12 +1,13 @@
 package com.draken.almacen.controllers;
 
+import com.draken.almacen.docs.ProblemaDoc;
 import com.draken.almacen.dto.productos.ProductoRequest;
 import com.draken.almacen.dto.productos.ProductoResponse;
-import com.draken.almacen.entities.Producto;
-import com.draken.almacen.enums.Categoria;
 import com.draken.almacen.services.productos.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -60,7 +61,13 @@ public class ProductoController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Producto no encontrado"
+            description = "Producto no encontrado",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<ProductoResponse> obtenerPorId(
             @Parameter(description = "Identificador del producto", example = "1")
@@ -79,7 +86,13 @@ public class ProductoController {
     )
     @ApiResponse(
             responseCode = "409",
-            description = "Conflicto con datos"
+            description = "Conflicto con datos",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<ProductoResponse> registrar(
             // Siempre usar valida para que valide el body en el dto
@@ -98,12 +111,24 @@ public class ProductoController {
             description = "Producto actualizado"
     )
     @ApiResponse(
-            responseCode = "409",
-            description = "Conflicto con los nuevos datos"
+            responseCode = "404",
+            description = "Producto no existe",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     @ApiResponse(
-            responseCode = "404",
-            description = "Producto no existe"
+            responseCode = "409",
+            description = "Conflicto con los nuevos datos",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<ProductoResponse> actualizar(
             @Parameter(description = "Identificador del producto", example = "1")
@@ -123,7 +148,23 @@ public class ProductoController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Producto no existe"
+            description = "Producto no existe",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "409",
+            description = "El producto esta en uso y no puede eliminarse",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<Void> eliminar(
             @Parameter(description = "Identificador del producto", example = "1")
