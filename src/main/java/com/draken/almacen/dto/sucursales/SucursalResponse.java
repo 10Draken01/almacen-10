@@ -1,8 +1,6 @@
 package com.draken.almacen.dto.sucursales;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Schema(description = "Informacion de sucursal")
 public record SucursalResponse(

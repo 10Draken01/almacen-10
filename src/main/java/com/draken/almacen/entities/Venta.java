@@ -47,9 +47,14 @@ public class Venta {
 
     public void agregarDetalle(DetalleVenta detalleVenta) {
         if (detalleVenta == null)
-            throw new DatoInvalidoException("El detalle de la venta es requerido");
-        if(this.detalleVentas.contains(detalleVenta))
-            throw new ConflictoException("Ya existe ese detalle de venta");
+            throw new DatoInvalidoException(
+                    "El detalle de venta no puede ser nulo"
+            );
+
+        if (this.detalleVentas.contains(detalleVenta))
+            throw new ConflictoException(
+                    "El detalle de venta ya se encuentra registrado"
+            );
 
         detalleVenta
                 .getProducto()
@@ -63,7 +68,9 @@ public class Venta {
 
     public void cancelarVenta(){
         if (this.estadoVenta == EstadoVenta.CANCELADA)
-            throw new ConflictoException("La venta ya esta cancelada");
+            throw new ConflictoException(
+                    "La venta ya se encuentra cancelada"
+            );
 
         this.detalleVentas.forEach(d->
                 d.getProducto().aumentarCantidad(d.getCantidadProducto())
@@ -74,16 +81,24 @@ public class Venta {
     public BigDecimal obtenerTotalVenta(){
         return this.detalleVentas.stream()
                 .map(d ->
-                    d.getPrecioProducto().multiply(
-                            BigDecimal.valueOf(d.getCantidadProducto())
-                    )
+                        d.getPrecioProducto().multiply(
+                                BigDecimal.valueOf(d.getCantidadProducto())
+                        )
                 )
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public Integer obtenerTotalProductos(){
+        return this.detalleVentas.stream()
+                .map(DetalleVenta::getCantidadProducto
+                ).reduce(0, Integer::sum);
+    }
+
     public static Venta crear(Sucursal sucursal) {
         if(sucursal == null)
-            throw new DatoInvalidoException("La sucursal es requerida");
+            throw new DatoInvalidoException(
+                    "La sucursal asociada a la venta es obligatoria"
+            );
 
         return Venta.builder()
                 .estadoVenta(EstadoVenta.REGISTRADA)

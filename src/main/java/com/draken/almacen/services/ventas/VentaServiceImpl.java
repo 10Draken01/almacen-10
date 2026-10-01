@@ -31,20 +31,22 @@ public class VentaServiceImpl implements VentaService{
     private final ProductoRepository productoRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<VentaResponse> listarConFiltroOpcionalActivo(String descripcion) {
         log.info("Listando ventas...");
 
-        EstadoVenta estadoVenta = descripcion == null ? null
+        EstadoVenta estadoVenta = descripcion == null ? EstadoVenta.REGISTRADA
                 : EstadoVenta.obtenerEstadoVentaPorDescripcion(descripcion);
-        return ventaRepository.findAllConFiltroOpcional(estadoVenta).stream()
+        return ventaRepository.findAllByEstadoVenta(estadoVenta).stream()
                 .map( ventaMapper::entidadAResponse).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public VentaResponse obtenerPorId(Long id) {
         log.info("Obteniendo venta por id: {}", id);
 
-        Venta venta = ventaRepository.findById(id)
+        Venta venta = ventaRepository.findByIdAndEstadoVenta(id, EstadoVenta.REGISTRADA)
                 .orElseThrow(
                         () -> new RecursoNoEncontradoException("Venta no encontrada con id: " + id)
                 );
@@ -79,8 +81,6 @@ public class VentaServiceImpl implements VentaService{
     public VentaResponse cancelar(Long id) {
         Venta venta = obtenerVentaOException(id);
         venta.cancelarVenta();
-
-        ventaRepository.save(venta);
 
         return ventaMapper.entidadAResponse(venta);
     }

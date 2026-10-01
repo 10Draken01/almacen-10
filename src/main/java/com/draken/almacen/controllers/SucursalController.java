@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,6 +56,7 @@ public class SucursalController {
             responseCode = "200",
             description = "Listado obtenido"
     )
+    @Transactional(readOnly = true)
     public ResponseEntity<List<SucursalResponse>> listar(
             @Parameter(description = "Nombre de la sucursal", example = "Abarrotes Chica")
             @RequestParam(required = false) String nombre,
@@ -75,7 +77,13 @@ public class SucursalController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Sucursal no encontrada"
+            description = "Sucursal no encontrada",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<SucursalResponse> obtenerPorId(
             @Parameter(description = "Identificador de la sucursal", example = "1")
@@ -94,11 +102,23 @@ public class SucursalController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Sucursal no encontrada"
+            description = "Sucursal no encontrada",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     @ApiResponse(
             responseCode = "409",
-            description = "Conflicto con los nuevos datos"
+            description = "Conflicto con los nuevos datos",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<SucursalResponse> registrar(
             @Valid @RequestBody SucursalRequest request
@@ -118,11 +138,23 @@ public class SucursalController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Sucursal no encontrada"
+            description = "Sucursal no encontrada",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     @ApiResponse(
             responseCode = "409",
-            description = "Conflicto con los nuevos datos"
+            description = "Conflicto con los nuevos datos",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<SucursalResponse> actualizar(
             @Parameter(description = "Identificador de la sucursal", example = "1")
@@ -143,11 +175,23 @@ public class SucursalController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Sucursal no encontrada"
+            description = "Sucursal no encontrada",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     @ApiResponse(
             responseCode = "409",
-            description = "Conflicto con los nuevos datos"
+            description = "Conflicto con los nuevos datos",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<Void> eliminar(
             @Parameter(description = "Identificador de la sucursal", example = "1")

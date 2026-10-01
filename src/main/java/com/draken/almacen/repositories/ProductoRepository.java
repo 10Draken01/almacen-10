@@ -22,13 +22,13 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
                    OR p.categoria = :categoria)
         AND (:precioMin IS NULL 
             OR p.precio >= :precioMin)
-        AND (:preicoMax IS NULL 
-            OR p.precio <= :preicoMax)
+        AND (:precioMax IS NULL 
+            OR p.precio <= :precioMax)
     """)
     List<Producto> listarConFiltro(
         @Param("nombre") String nombre,
         @Param("categoria") Categoria categoria,
         @Param("precioMin") BigDecimal precioMin,
-        @Param("preicoMax") BigDecimal preicoMax
+        @Param("precioMax") BigDecimal precioMax
     );
 }
