@@ -3,9 +3,6 @@ package com.draken.almacen.controllers;
 import com.draken.almacen.docs.ProblemaDoc;
 import com.draken.almacen.dto.sucursales.SucursalRequest;
 import com.draken.almacen.dto.sucursales.SucursalResponse;
-import com.draken.almacen.entities.Sucursal;
-import com.draken.almacen.exceptions.ConflictoException;
-import com.draken.almacen.repositories.SucursalRepository;
 import com.draken.almacen.services.sucursales.SucursalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -64,7 +61,7 @@ public class SucursalController {
             @Parameter(description = "Direccion de la sucursal", example = "PRIVADA UNIÓN 10, COL. AGRÍCOLA PANTITLÁN, IZTACALCO, 08100, CIUDAD DE MÉXICO, MÉXICO.")
             @RequestParam(required = false) String direccion
     ) {
-        return ResponseEntity.ok(sucursalService.listar(nombre, direccion));
+        return ResponseEntity.ok(sucursalService.listarConFiltroOpcional(nombre, direccion));
     }
 
     @GetMapping("/{id}")
@@ -137,7 +134,7 @@ public class SucursalController {
 
     @DeleteMapping("/{id}")
     @Operation(
-            summary = "Registrar una sucursal con su id",
+            summary = "Eliminar una sucursal con su id",
             description = "Asignar el identificador de la sucursal"
     )
     @ApiResponse(

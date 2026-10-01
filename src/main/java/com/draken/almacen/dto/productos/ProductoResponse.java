@@ -22,7 +22,7 @@ public record ProductoResponse(
 
         @Schema(
                 description = "Categoria del producto",
-                example = "Elctronica"
+                example = "Electronica"
         )
         String categoria,
 

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 // patron de diseno service layer
 public interface ProductoService {
-    List<ProductoResponse> listar(String nombre, String categoria, BigDecimal precioMin, BigDecimal preicoMax);
+    List<ProductoResponse> listar(String nombre, String descripcion, BigDecimal precioMin, BigDecimal preicoMax);
 
     ProductoResponse obtenerPorId(Long id);
 

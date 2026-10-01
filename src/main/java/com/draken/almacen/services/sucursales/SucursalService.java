@@ -6,7 +6,7 @@ import com.draken.almacen.dto.sucursales.SucursalResponse;
 import java.util.List;
 
 public interface SucursalService {
-    List<SucursalResponse> listar(String nombre, String direccion);
+    List<SucursalResponse> listarConFiltroOpcional(String nombre, String direccion);
 
     SucursalResponse obtenerPorId(Long id);
 
