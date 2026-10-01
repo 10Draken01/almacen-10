@@ -4,11 +4,6 @@ package com.draken.almacen.controllers;
 import com.draken.almacen.docs.ProblemaDoc;
 import com.draken.almacen.dto.ventas.VentaRequest;
 import com.draken.almacen.dto.ventas.VentaResponse;
-import com.draken.almacen.entities.DetalleVenta;
-import com.draken.almacen.entities.Producto;
-import com.draken.almacen.entities.Sucursal;
-import com.draken.almacen.entities.Venta;
-import com.draken.almacen.exceptions.RecursoNoEncontradoException;
 import com.draken.almacen.services.ventas.VentaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,10 +58,16 @@ public class VentaController {
     )
     @ApiResponse(
             responseCode = "409",
-            description = "Conflicto con la categoria inexistente"
+            description = "El estado de venta proporcionado no es válido",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<List<VentaResponse>> listarConFiltroOpcionalActivo(
-            @Parameter(description = "Estado de la venta", example = "true")
+            @Parameter(description = "Estado de la venta values: Registrada | Cancelada", example = "Registrada")
             @RequestParam(required = false) String estadoVenta
     ) {
         return ResponseEntity.ok(ventaService.listarConFiltroOpcionalActivo(estadoVenta));
@@ -80,6 +81,16 @@ public class VentaController {
     @ApiResponse(
             responseCode = "200",
             description = "Venta obtenida"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Venta no encontrada",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<VentaResponse> obtenerPorId(
             @Parameter(description = "Identificador de la venta", example = "1")
@@ -98,11 +109,23 @@ public class VentaController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Sucursal no encontrada"
+            description = "Sucursal o producto no encontrado",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     @ApiResponse(
             responseCode = "409",
-            description = "Conflicto con los datos"
+            description = "El detalle de venta ya se encuentra registrado",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     public ResponseEntity<VentaResponse> registrarVenta(
             @Valid @RequestBody VentaRequest request
@@ -113,22 +136,34 @@ public class VentaController {
 
     @PatchMapping("/{id}")
     @Operation(
-            summary = "Cancelar una sucursal con su id",
-            description = "Asignar el identificador de la sucursal"
+            summary = "Cancelar una venta con su id",
+            description = "Cambia el estado de una venta registrada a CANCELADA y restaura las cantidades de inventario."
     )
     @ApiResponse(
             responseCode = "204",
-            description = "Sucursal cancelada correctamente"
+            description = "Venta cancelada correctamente"
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Sucursal no encontrada"
+            description = "Venta no encontrada",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
     @ApiResponse(
             responseCode = "409",
-            description = "Conflicto con los nuevos datos"
+            description = "Conflicto con los datos",
+            content = @Content(
+                    mediaType = "application/problem+json",
+                    schema = @Schema(
+                            implementation = ProblemaDoc.class
+                    )
+            )
     )
-    public ResponseEntity<VentaResponse> cancelar(
+    public ResponseEntity<Void> cancelar(
             @Parameter(description = "Identificador de la venta", example = "1")
             @PathVariable @Positive(message = "El identificador debe ser positivo") Long id
     ) {

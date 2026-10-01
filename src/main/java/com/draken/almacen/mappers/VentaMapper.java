@@ -5,8 +5,6 @@ import com.draken.almacen.entities.Venta;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class VentaMapper {
@@ -18,7 +16,7 @@ public class VentaMapper {
         return venta == null
                 ? null
                 : new VentaResponse(
-                        venta.getId(),
+                venta.getId(),
                 venta.getFecha().toString(),
                 venta.getEstadoVenta().getDescripcion(),
                 sucursalMapper.entidadAResponse(venta.getSucursal()),

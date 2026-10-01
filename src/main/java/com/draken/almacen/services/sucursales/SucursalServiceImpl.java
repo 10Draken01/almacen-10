@@ -23,6 +23,7 @@ public class SucursalServiceImpl implements SucursalService{
     private final SucursalMapper sucursalMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<SucursalResponse> listarConFiltroOpcional(String nombre, String direccion) {
         log.info("Listando todos las sucursales");
         return sucursalRepository.listarConFiltro(nombre, direccion).stream()
@@ -30,6 +31,7 @@ public class SucursalServiceImpl implements SucursalService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public SucursalResponse obtenerPorId(Long id) {
         return sucursalMapper.entidadAResponse(obtenerSucursalOException(id));
     }

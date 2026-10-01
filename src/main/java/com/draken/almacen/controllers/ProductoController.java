@@ -65,9 +65,9 @@ public class ProductoController {
             @Parameter(description = "Precio minimo", example = "10000.0")
             @RequestParam(required = false) BigDecimal precioMin,
             @Parameter(description = "Precio maximo", example = "20000.0")
-            @RequestParam(required = false) BigDecimal preicoMax
+            @RequestParam(required = false) BigDecimal precioMax
     ) {
-        return ResponseEntity.ok(productoService.listar(nombre, categoria, precioMin, preicoMax));
+        return ResponseEntity.ok(productoService.listar(nombre, categoria, precioMin, precioMax));
     }
 
     @GetMapping("/{id}")

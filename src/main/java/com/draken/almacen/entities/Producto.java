@@ -41,14 +41,14 @@ public class Producto {
 
     public static void validarDatos(String nombre, Categoria categoria, BigDecimal precio, Integer cantidad) {
 
-        StringCustomUtils.validarTamanio(nombre, 5,30, "El nombre debe contener entre 5 y 30 caracteres");
+        StringCustomUtils.validarTamanio(nombre, 5,30, "El nombre debe contener entre 5 y 30 caracteres del producto: " + nombre);
 
         if (categoria == null)
             throw new DatoInvalidoException("La categoria es requerida");
 
-        ValoresNumericosUtils.validarBigDecimalPositvo(precio, "El precio es requerido y debe ser positivo");
+        ValoresNumericosUtils.validarBigDecimalPositvo(precio, "El precio es requerido y debe ser positivo del producto: " + nombre);
 
-        ValoresNumericosUtils.validarNumeroRequerido(cantidad, "La cantidad es requerida y debe ser positiva");
+        ValoresNumericosUtils.validarNumeroRequerido(cantidad, "La cantidad es requerida y debe ser positiva del producto: " + nombre);
     }
 
     public void actualizar(String nombre, Categoria categoria, BigDecimal precio, Integer cantidad) {
@@ -61,15 +61,15 @@ public class Producto {
     }
 
     public void aumentarCantidad(int cantidad) {
-        ValoresNumericosUtils.validarEnteroPositvo(cantidad, "La cantidad debe ser positiva");
+        ValoresNumericosUtils.validarEnteroPositvo(cantidad, "La cantidad debe ser positiva del producto con id: " + this.id);
         this.cantidad += cantidad;
     }
 
     public void descontarCantidad(int cantidad) {
-        ValoresNumericosUtils.validarEnteroPositvo(cantidad, "La cantidad debe ser positiva");
+        ValoresNumericosUtils.validarEnteroPositvo(cantidad, "La cantidad debe ser positivadel producto con id: " + this.id);
 
         if ( cantidad > this.cantidad)
-            throw new DatoInvalidoException("La cantidad debe ser menor o igual que la cantidad actual");
+            throw new DatoInvalidoException("La cantidad debe ser menor o igual que la cantidad actual del producto con id: " + this.id);
 
         this.cantidad -= cantidad;
     }
