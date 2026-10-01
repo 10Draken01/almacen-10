@@ -134,7 +134,7 @@ public class VentaController {
                 .body(ventaService.registrarVenta(request));
     }
 
-    @PatchMapping("/{id}")
+    @DeleteMapping("/{id}")
     @Operation(
             summary = "Cancelar una venta con su id",
             description = "Cambia el estado de una venta registrada a CANCELADA y restaura las cantidades de inventario."
