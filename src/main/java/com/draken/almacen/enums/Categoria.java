@@ -11,7 +11,7 @@ public enum Categoria {
     ALIMENTO("Alimento"),
     HIGIENE("Higiene"),
     JUGUETE("Juguete"),
-    ELECTRONICA("Elctronica"),
+    ELECTRONICA("Electronica"),
     ROPA("Ropa"),
     ACCESORIO("Accesorio"),
     FARMACIA("Farmacia");

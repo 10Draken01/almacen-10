@@ -23,9 +23,9 @@ public class SucursalServiceImpl implements SucursalService{
     private final SucursalMapper sucursalMapper;
 
     @Override
-    public List<SucursalResponse> listar(String nombre, String direccion) {
+    public List<SucursalResponse> listarConFiltroOpcional(String nombre, String direccion) {
         log.info("Listando todos las sucursales");
-        return sucursalRepository.findAll().stream()
+        return sucursalRepository.listarConFiltro(nombre, direccion).stream()
                 .map(sucursalMapper::entidadAResponse).toList();
     }
 

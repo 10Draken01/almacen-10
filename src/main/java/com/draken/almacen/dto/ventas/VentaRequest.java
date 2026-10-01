@@ -15,7 +15,11 @@ public record VentaRequest(
         @Positive(message = "El identificador del sucursal debe ser positivo")
         Long idSucursal,
 
-        @Schema(description = "Lista de productos de una venta", example = "1")
-        @NotEmpty(message = "Lista de productos es requerida y no debe estar vacia")
+        @Schema(
+                description = "Productos a vender. Si un producto se repite, sus cantidades se suman",
+                requiredMode = Schema.RequiredMode.REQUIRED,
+                minLength = 1   // ver nota abajo
+        )
+        @NotEmpty(message = "La lista de productos es requerida y no debe estar vacia")
         List<@Valid DetalleVentaRequest> productos
 ) { }

@@ -6,11 +6,11 @@ import com.draken.almacen.dto.ventas.VentaResponse;
 import java.util.List;
 
 public interface VentaService {
-    List<VentaResponse> listar(String nombre, String direccion);
+    List<VentaResponse> listarConFiltroOpcionalActivo(String descripcion);
 
-    VentaResponse obtenerPorIdActiva(Long id);
+    VentaResponse obtenerPorId(Long id);
 
-    VentaResponse registrar(VentaRequest request);
+    VentaResponse registrarVenta(VentaRequest request);
 
     VentaResponse cancelar(Long id);
 }

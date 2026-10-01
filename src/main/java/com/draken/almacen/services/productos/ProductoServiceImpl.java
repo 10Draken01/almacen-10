@@ -26,9 +26,11 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductoResponse> listar(String nombre, String categoria, BigDecimal precioMin, BigDecimal preicoMax) {
+    public List<ProductoResponse> listar(String nombre, String descripcion, BigDecimal precioMin, BigDecimal preicoMax) {
         log.info("Listando todos los productos");
-        return productoRepository.findAll().stream()
+        Categoria categoriaValidada = descripcion == null ? null
+            : Categoria.obtenerCategoriaPorDescripcion(descripcion);
+        return productoRepository.listarConFiltro(nombre, categoriaValidada, precioMin, preicoMax).stream()
                 .map(productoMapper::entidadAResponse).toList();
     }
 

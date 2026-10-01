@@ -14,6 +14,6 @@ public record DetalleVentaRequest(
         @Schema(description = "Cantidad del producto", example = "1")
         @NotNull(message = "La cantidad del producto es requerida")
         @Positive(message = "La cantidad del producto debe ser positiva")
-        String cantidadProducto
+        Integer cantidadProducto
 ) {
 }

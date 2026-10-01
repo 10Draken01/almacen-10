@@ -23,7 +23,7 @@ public record ProductoRequest(
 
         @Schema(
                 description = "Categoria del producto (Puede estar en mayusculas o minusculas)",
-                example = "Elctronica",
+                example = "Electronica",
                 allowableValues = {
                         "ALIMENTO",
                         "HIGIENE",
