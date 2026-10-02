@@ -80,6 +80,9 @@ public class VentaServiceImpl implements VentaService{
     @Override
     public VentaResponse cancelar(Long id) {
         Venta venta = obtenerVentaOException(id);
+
+        log.info("Cancelando venta con id: {}", id);
+
         venta.cancelarVenta();
 
         return ventaMapper.entidadAResponse(venta);

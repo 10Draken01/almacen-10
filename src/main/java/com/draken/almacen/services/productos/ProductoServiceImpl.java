@@ -4,6 +4,7 @@ import com.draken.almacen.dto.productos.ProductoRequest;
 import com.draken.almacen.dto.productos.ProductoResponse;
 import com.draken.almacen.entities.Producto;
 import com.draken.almacen.enums.Categoria;
+import com.draken.almacen.exceptions.DatoInvalidoException;
 import com.draken.almacen.exceptions.RecursoNoEncontradoException;
 import com.draken.almacen.mappers.ProductoMapper;
 import com.draken.almacen.repositories.ProductoRepository;
@@ -27,9 +28,18 @@ public class ProductoServiceImpl implements ProductoService{
     @Override
     @Transactional(readOnly = true)
     public List<ProductoResponse> listar(String nombre, String descripcion, BigDecimal precioMin, BigDecimal precioMax) {
-        log.info("Listando todos los productos");
         Categoria categoriaValidada = descripcion == null ? null
-            : Categoria.obtenerCategoriaPorDescripcion(descripcion);
+                : Categoria.obtenerCategoriaPorDescripcion(descripcion);
+
+        if (
+            (precioMin != null && precioMax != null) &&
+            (precioMin.compareTo(precioMax) > 0)
+        )
+            throw new DatoInvalidoException(
+                    "El precio mínimo no puede ser mayor que el precio máximo"
+            );
+
+        log.info("Listando todos los productos");
         return productoRepository.listarConFiltro(nombre, categoriaValidada, precioMin, precioMax).stream()
                 .map(productoMapper::entidadAResponse).toList();
     }
