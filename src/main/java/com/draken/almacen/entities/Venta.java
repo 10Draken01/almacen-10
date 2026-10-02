@@ -51,11 +51,6 @@ public class Venta {
                     "El detalle de venta no puede ser nulo"
             );
 
-        if (this.detalleVentas.contains(detalleVenta))
-            throw new ConflictoException(
-                    "El detalle de venta ya se encuentra registrado"
-            );
-
         detalleVenta
                 .getProducto()
                 .descontarCantidad(
@@ -88,11 +83,11 @@ public class Venta {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public Integer obtenerTotalProductos(){
-        return this.detalleVentas.stream()
-                .map(DetalleVenta::getCantidadProducto
-                ).reduce(0, Integer::sum);
-    }
+//    public Integer obtenerTotalProductos(){
+//        return this.detalleVentas.stream()
+//                .map(DetalleVenta::getCantidadProducto
+//                ).reduce(0, Integer::sum);
+//    }
 
     public static Venta crear(Sucursal sucursal) {
         if(sucursal == null)
